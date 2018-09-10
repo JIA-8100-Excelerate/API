@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_07_040816) do
+ActiveRecord::Schema.define(version: 2018_09_10_184000) do
 
   create_table "goals", force: :cascade do |t|
     t.string "category"
@@ -22,14 +22,12 @@ ActiveRecord::Schema.define(version: 2018_09_07_040816) do
 
   create_table "tasks", force: :cascade do |t|
     t.string "name"
-    t.text "students", default: "--- []\n"
     t.boolean "done", default: false
     t.integer "goal_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "goals_id"
+    t.boolean "public", default: false
     t.index ["goal_id"], name: "index_tasks_on_goal_id"
-    t.index ["goals_id"], name: "index_tasks_on_goals_id"
   end
 
   create_table "users", force: :cascade do |t|
