@@ -6,4 +6,6 @@ Rails.application.routes.draw do
 
   post 'auth/login', to: 'authentication#authenticate'
   post 'signup', to: 'users#create'
+  get 'profile', to: 'users#show'
+  put 'profile', to: 'users#update'
 end

@@ -10,6 +10,19 @@ class UsersController < ApplicationController
     json_response(response, :created)
   end
 
+  # GET /profile
+  # return user's name and email
+  def show
+    json_response(name: current_user.name, email: current_user.email)
+  end
+
+  # PUT /profile
+  # update user's name, email, and/or password
+  def update
+    current_user.update(user_params)
+    head :no_content
+  end
+
   private
 
   def user_params
