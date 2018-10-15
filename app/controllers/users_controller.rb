@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   # GET /profile
   # return user's name and email
   def show
-    json_response(name: current_user.name, email: current_user.email)
+    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email)
   end
 
   # PUT /profile
@@ -27,7 +27,8 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(
-      :name,
+      :firstname,
+      :lastname,
       :email,
       :password,
       :password_confirmation
