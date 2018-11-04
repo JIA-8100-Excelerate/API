@@ -1,5 +1,12 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize_request, only: :create
+  skip_before_action :authorize_request, only: [:index, :create]
+
+  # GET /users
+  # return index of users
+  def index
+    users = User.select(:id, :firstname, :lastname)
+    json_response(users)
+  end
 
   # POST /signup
   # return authenticated token upon signup

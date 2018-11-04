@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   post 'signup', to: 'users#create'
   get 'profile', to: 'users#show'
   put 'profile', to: 'users#update'
+  get 'users', to: 'users#index'
 end
