@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_05_042600) do
+ActiveRecord::Schema.define(version: 2018_11_11_223649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,8 @@ ActiveRecord::Schema.define(version: 2018_11_05_042600) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "public", default: false
+    t.boolean "suggestion"
+    t.string "comment"
     t.index ["goal_id"], name: "index_tasks_on_goal_id"
   end
 
@@ -48,6 +50,8 @@ ActiveRecord::Schema.define(version: 2018_11_05_042600) do
     t.datetime "updated_at", null: false
     t.string "firstname"
     t.string "lastname"
+    t.string "mentee"
+    t.boolean "mentor", default: false
   end
 
   add_foreign_key "completed_tasks", "goals"

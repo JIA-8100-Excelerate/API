@@ -3,7 +3,13 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
-    @goals = current_user.goals
+    if !current_user&.mentee.nil?
+      mentee = User.find_by(email: current_user.mentee)
+      @goals = mentee.goals
+    else
+      @goals = current_user.goals
+    end
+
     json_response(@goals)
   end
 
