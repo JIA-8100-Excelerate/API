@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   # GET /profile
   # return user's name and email
   def show
-    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email)
+    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email, mentor: current_user.mentor, mentee: current_user.mentee)
   end
 
   # PUT /profile
