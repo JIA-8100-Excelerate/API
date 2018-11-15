@@ -12,6 +12,10 @@ class UsersController < ApplicationController
   # return authenticated token upon signup
   def create
     user = User.create!(user_params)
+    if params[:mentee]
+      user.mentees.append(params[:mentee])
+      user.save
+    end
     auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token }
     json_response(response, :created)
@@ -20,13 +24,17 @@ class UsersController < ApplicationController
   # GET /profile
   # return user's name and email
   def show
-    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email, mentor: current_user.mentor, mentee: current_user.mentee)
+    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email, mentor: current_user.mentor, mentees: current_user.mentees)
   end
 
   # PUT /profile
   # update user's name, email, and/or password
   def update
     current_user.update(user_params)
+    if params[:mentee]
+      current_user.mentees.append(params[:mentee])
+      current_user.save
+    end
     head :no_content
   end
 
@@ -40,7 +48,6 @@ class UsersController < ApplicationController
       :password,
       :password_confirmation,
       :mentor,
-      :mentee,
     )
   end
 end

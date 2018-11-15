@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_223649) do
+ActiveRecord::Schema.define(version: 2018_11_15_190115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,8 +50,8 @@ ActiveRecord::Schema.define(version: 2018_11_11_223649) do
     t.datetime "updated_at", null: false
     t.string "firstname"
     t.string "lastname"
-    t.string "mentee"
     t.boolean "mentor", default: false
+    t.string "mentees", default: [], array: true
   end
 
   add_foreign_key "completed_tasks", "goals"
