@@ -30,4 +30,8 @@ class Message
   def self.expired_token
     'Sorry, your token has expired. Please login to continue.'
   end
+
+  def self.mentee_does_not_exist
+    'That mentee does not have an account yet.'
+  end
 end

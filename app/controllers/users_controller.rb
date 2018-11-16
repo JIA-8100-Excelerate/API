@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   # return authenticated token upon signup
   def create
     user = User.create!(user_params)
-    if params[:mentee]
+    if params[:mentee] and !User.find_by(email: params[:mentee]).nil?
       user.mentees.append(params[:mentee])
       user.save
     end
@@ -24,7 +24,19 @@ class UsersController < ApplicationController
   # GET /profile
   # return user's name and email
   def show
-    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email, mentor: current_user.mentor, mentees: current_user.mentees)
+    mentee_list = []
+    current_user.mentees.each do |email|
+      mentee = User.find_by(email: email)
+      if !mentee.nil?
+        mentee_hash = {
+          email: email,
+          name: mentee.firstname + " " + mentee.lastname,
+        }
+        mentee_list.append(mentee_hash)
+      end
+    end
+
+    json_response(firstname: current_user.firstname, lastname: current_user.lastname, email: current_user.email, mentor: current_user.mentor, mentees: mentee_list)
   end
 
   # PUT /profile
@@ -32,8 +44,11 @@ class UsersController < ApplicationController
   def update
     current_user.update(user_params)
     if params[:mentee]
-      current_user.mentees.append(params[:mentee])
-      current_user.save
+      mentee = User.find_by(email: params[:mentee])
+      if !mentee.nil? and !current_user.mentees.include?(params[:mentee])
+        current_user.mentees.append(params[:mentee])
+        current_user.save
+      end
     end
     head :no_content
   end

@@ -4,7 +4,7 @@ class GoalsController < ApplicationController
   # GET /goals
   def index
     if params[:mentee] and current_user.mentees.include?(params[:mentee])
-      @goals = User.find_by(email: params[:mentee]).goals
+      @goals = User.find_by(email: params[:mentee])&.goals
     else
       @goals = current_user.goals
     end
