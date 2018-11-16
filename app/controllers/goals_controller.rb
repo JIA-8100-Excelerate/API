@@ -3,20 +3,22 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
-    if params[:mentee] and current_user.mentees.include?(params[:mentee])
-      @goals = User.find_by(email: params[:mentee])&.goals
+    if current_user.mentees != []
+      @goals = {}
+      current_user.mentees.each do |email|
+        mentee = User.find_by(email: email)
+        if !mentee.nil?
+          mentee_goals = mentee.goals
+          if !mentee_goals.nil?
+            @goals[email] = mentee_goals
+          end
+        end
+      end
     else
       @goals = current_user.goals
     end
 
     json_response(@goals)
-
-    # if !current_user&.mentee.nil?
-    #   mentee = User.find_by(email: current_user.mentees[0])
-    #   @goals = mentee.goals
-    # else
-    #   @goals = current_user.goals
-    # end
   end
 
   # POST /goals
