@@ -3,7 +3,12 @@ class GoalsController < ApplicationController
 
   # GET /goals
   def index
-    @goals = current_user.goals
+    if params[:mentee] and current_user.mentees.include?(params[:mentee])
+      @goals = User.find_by(email: params[:mentee]).goals
+    else
+      @goals = current_user.goals
+    end
+
     json_response(@goals)
 
     # if !current_user&.mentee.nil?
@@ -11,18 +16,6 @@ class GoalsController < ApplicationController
     #   @goals = mentee.goals
     # else
     #   @goals = current_user.goals
-    # end
-
-    # json_response(@goals)
-
-    # if !current_user&.mentees.nil?
-    #   @goals = []
-    #   current_user.mentees.each do |m|
-    #     user_goals = User.find_by(email: m).goals
-    #     if user_goals
-    #       @goals.append(user_goals)
-    #     end
-    #   end
     # end
   end
 
