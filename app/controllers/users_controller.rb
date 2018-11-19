@@ -38,7 +38,6 @@ class UsersController < ApplicationController
   # PUT /profile
   # update user's name, email, and/or password
   def update
-    current_user.update(user_params)
     if params[:mentee]
       mentee = User.find_by(email: params[:mentee])
       if mentee.nil?
@@ -48,6 +47,9 @@ class UsersController < ApplicationController
         current_user.save
         head :no_content
       end
+    else
+      current_user.update(user_params)
+      head :no_content
     end 
   end
 
