@@ -33,7 +33,7 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.permit(:name)
+    params.permit(:name, :comment)
   end
 
   def set_goal
