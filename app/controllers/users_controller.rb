@@ -50,6 +50,8 @@ class UsersController < ApplicationController
         mentee = User.find_by(email: params[:mentee])
         if mentee.nil?
           response = {mentee_dne: Message.mentee_dne}
+        elsif current_user == mentee
+          response = {mentee_is_current_user: Message.mentee_is_current_user}
         elsif !current_user.mentees.include?(params[:mentee])
           current_user.mentees.append(params[:mentee])
           current_user.save

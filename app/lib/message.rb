@@ -31,6 +31,10 @@ class Message
     'Sorry, your token has expired. Please login to continue.'
   end
 
+  def self.mentee_is_current_user
+    'You cannot be your own mentor.'
+  end
+
   def self.not_a_mentor
     'Not a mentor, cannot add a mentee'
   end
