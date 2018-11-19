@@ -12,10 +12,6 @@ class UsersController < ApplicationController
   # return authenticated token upon signup
   def create
     user = User.create!(user_params)
-    if params[:mentee] and !User.find_by(email: params[:mentee]).nil?
-      user.mentees.append(params[:mentee])
-      user.save
-    end
     auth_token = AuthenticateUser.new(user.email, user.password).call
     response = { message: Message.account_created, auth_token: auth_token }
     json_response(response, :created)
@@ -45,12 +41,14 @@ class UsersController < ApplicationController
     current_user.update(user_params)
     if params[:mentee]
       mentee = User.find_by(email: params[:mentee])
-      if !mentee.nil? and !current_user.mentees.include?(params[:mentee])
+      if mentee.nil?
+        json_response(mentee_dne: Message.mentee_dne)
+      elsif !current_user.mentees.include?(params[:mentee])
         current_user.mentees.append(params[:mentee])
         current_user.save
+        head :no_content
       end
-    end
-    head :no_content
+    end 
   end
 
   private
