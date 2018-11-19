@@ -38,19 +38,32 @@ class UsersController < ApplicationController
   # PUT /profile
   # update user's name, email, and/or password
   def update
-    if params[:mentee]
-      mentee = User.find_by(email: params[:mentee])
-      if mentee.nil?
-        json_response(mentee_dne: Message.mentee_dne)
-      elsif !current_user.mentees.include?(params[:mentee])
-        current_user.mentees.append(params[:mentee])
-        current_user.save
-        head :no_content
+    current_user.update(user_params)
+    head :no_content
+  end
+
+  # PUT /add_mentee
+  # add mentee to mentor's account
+  def add_mentee
+    if current_user.mentor
+      if params[:mentee]
+        mentee = User.find_by(email: params[:mentee])
+        if mentee.nil?
+          response = {mentee_dne: Message.mentee_dne}
+        elsif !current_user.mentees.include?(params[:mentee])
+          current_user.mentees.append(params[:mentee])
+          current_user.save
+          response = {mentee_added: Message.mentee_added}
+        else
+          response = {mentee_already_exists: Message.mentee_already_exists}
+        end
+      else
+        response = {missing_mentee: Message.missing_mentee}
       end
     else
-      current_user.update(user_params)
-      head :no_content
-    end 
+      response = {not_a_mentor: Message.not_a_mentor}
+    end
+    json_response(response)
   end
 
   private

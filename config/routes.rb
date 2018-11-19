@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get 'profile', to: 'users#show'
   put 'profile', to: 'users#update'
   get 'users', to: 'users#index'
+  put 'add_mentee', to: 'users#add_mentee'
 end

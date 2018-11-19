@@ -31,6 +31,22 @@ class Message
     'Sorry, your token has expired. Please login to continue.'
   end
 
+  def self.not_a_mentor
+    'Not a mentor, cannot add a mentee'
+  end
+
+  def self.missing_mentee
+    'Missing mentee param.'
+  end
+
+  def self.mentee_added
+    'Mentee added successfully.'
+  end
+
+  def self.mentee_already_exists
+    'Mentee is already in your account.'
+  end
+
   def self.mentee_dne
     'That mentee does not have an account.'
   end
