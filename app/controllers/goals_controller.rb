@@ -11,6 +11,8 @@ class GoalsController < ApplicationController
           mentee_goals = mentee.goals
           if !mentee_goals.nil?
             @goals[email] = mentee_goals
+          else
+            @goals[email] = []
           end
         end
       end
